@@ -72,6 +72,10 @@ public class GestorTareas {
     }
 
     public void listarTareas() {// Recibo el mapa de tareas
+        if (mapTareas.isEmpty()) {
+            System.out.println("No hay tareas para mostrar");
+            return;
+        }
         for (Tarea i : mapTareas.values()) {// Uso values para obtener solo los valores del mapa
             System.out.println(i.toString());// Imprimo la tarea
             System.out.println("-----------");
