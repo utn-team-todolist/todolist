@@ -48,7 +48,7 @@ public class GestorTareas {
             System.out.println("Tienes una tarea con el mismo titulo, confirmar o rechazar s/n ");
             String opcion = scanner.nextLine();
             if (opcion.equalsIgnoreCase("s")) {
-                Tarea tarea = new Tarea(titulo, descripcion, fechaInicio, fechaVencimiento, estado, prioridad);
+                Tarea tarea = new Tarea(crearId(),titulo, descripcion, fechaInicio, fechaVencimiento, estado, prioridad);
                 mapTareas.put(crearId(), tarea);
             }
             if (opcion.equalsIgnoreCase("n")) {
@@ -56,7 +56,7 @@ public class GestorTareas {
 
             }
         } else {
-            Tarea tarea = new Tarea(titulo, descripcion, fechaInicio, fechaVencimiento, estado, prioridad);
+            Tarea tarea = new Tarea(crearId(),titulo, descripcion, fechaInicio, fechaVencimiento, estado, prioridad);
             mapTareas.put(crearId(), tarea);
 
         }
