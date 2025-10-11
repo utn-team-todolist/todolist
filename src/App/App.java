@@ -28,38 +28,59 @@ public class App {
             switch (opcion) {
                 case 1:
                     String titulo; // Variables
+                do {
                     System.out.println("Ingrese el titulo de la tarea: ");// Pido la informacion
                     titulo = scanner.nextLine();
-                    if (titulo.isEmpty()) {
+                    if (!Validador.validarStrings(titulo)) {
                         System.out.println("El titulo no puede estar vacio.");
                     }
-                    String descripcion;
-                    System.out.println("Ingrese la descripcion de la tarea: ");// Pido la informacion
+                } while (!Validador.validarStrings(titulo));    
+                
+                String descripcion;
+                do {
+                   System.out.println("Ingrese la descripcion de la tarea: ");// Pido la informacion
                     descripcion = scanner.nextLine();
-                    if (descripcion.isEmpty()) {
+                    if (!Validador.validarStrings(descripcion)) {
                         System.out.println("La descripcion no puede estar vacia.");
-                    }
-
-                    String fechaInicio;
+                    } 
+                } while (!Validador.validarStrings(descripcion));
+                
+                String fechaInicio;
+                do {
                     System.out.println("Ingrese la fecha de inicio de la tarea (YYYY-MM-DD): ");// Pido la informacion
                     fechaInicio = scanner.nextLine();// Transformo el String a LocalDate
 
+                } while (!Validador.validarStrings(fechaInicio));
+                    
                     String fechaVencimiento;
+                    
+                    do {
                     System.out.println("Ingrese la fecha de vencimiento de la tarea (YYYY-MM-DD): ");// Pido la
                                                                                                      // informacion
-                    fechaVencimiento = scanner.nextLine();// Transformo el String a LocalDate
-
+                    fechaVencimiento = scanner.nextLine();// Transformo el String a LocalDate   
+                    } while (!Validador.validarStrings(fechaVencimiento));
+                    
                     Estado estado;
+                    
+                    do {
                     System.out.println("Ingrese el estado de la tarea (PENDIENTE, EN_PROGRESO, COMPLETADA): ");// Pido
-                                                                                                               // la
+                                                                                                                // la
                                                                                                                // informacion
-                    estado = Estado.valueOf(scanner.nextLine().toUpperCase());// En mayusculas para evitar errores
+                    estado = Estado.valueOf(scanner.nextLine().toUpperCase());// En mayusculas para evitar errores 
                     if (estado == null) {
+                        System.out.println("El estado no puede estar vacio.");
+                    }                    
+                    } while (estado == null);
 
-                    }
                     Prioridad prioridad;
+
+                    do {
                     System.out.println("Ingrese la prioridad de la tarea (BAJA, MEDIA, ALTA): ");// Pido la informacion
                     prioridad = Prioridad.valueOf(scanner.nextLine().toUpperCase());// En mayusculas para evitar errores
+                    if (prioridad==null) {
+                        System.out.println("La prioridad no puede estar vacia.");
+                    }                        
+                    } while (prioridad == null);
 
                     gestorTareas.crearTarea(titulo, descripcion, fechaInicio, fechaVencimiento, estado, prioridad);
                     break;
