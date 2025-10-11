@@ -99,9 +99,14 @@ public class App {
                 case 4:
                     try {
                         System.out.println("Ingrese el ID de la tarea que desea eliminar: ");
-                        Long id = scanner.nextLong();
-                        if (id) {
+                        String id = scanner.nextLine();
+                        if (!Validador.validarStrings(id)) {
                             System.out.println("Error: el ID no puede estar vacio.");
+                        }
+                        try {
+
+                        } catch (Exception e) {
+                            // TODO: handle exception
                         }
                     } catch (Exception e) {
                         System.out.println("Error: " + e.getMessage());
