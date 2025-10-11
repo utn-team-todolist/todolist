@@ -48,7 +48,7 @@ public class GestorTareas {
             System.out.println("Tienes una tarea con el mismo titulo, confirmar o rechazar s/n ");
             String opcion = scanner.nextLine();
             if (opcion.equalsIgnoreCase("s")) {
-                Tarea tarea = new Tarea(crearId(),titulo, descripcion, fechaInicio, fechaVencimiento, estado, prioridad);
+                Tarea tarea = new Tarea(titulo, descripcion, fechaInicio, fechaVencimiento, estado, prioridad);
                 mapTareas.put(crearId(), tarea);
             }
             if (opcion.equalsIgnoreCase("n")) {
@@ -56,7 +56,7 @@ public class GestorTareas {
 
             }
         } else {
-            Tarea tarea = new Tarea(crearId(),titulo, descripcion, fechaInicio, fechaVencimiento, estado, prioridad);
+            Tarea tarea = new Tarea(titulo, descripcion, fechaInicio, fechaVencimiento, estado, prioridad);
             mapTareas.put(crearId(), tarea);
 
         }
@@ -83,10 +83,10 @@ public class GestorTareas {
     }
 
     public Tarea buscarPorId(Long id) throws Exception {
-        Tarea tareaBuscada = null; // variable auxiliar para retornar tarea
         if (!mapTareas.containsKey(id)) { // si no contiene el id tira la excepcion
             throw new Exception("El id buscado no existe");
         }
+        Tarea tareaBuscada = null; // variable auxiliar para retornar tarea
         if (mapTareas.containsKey(id)) { // si el id esta en el map
             tareaBuscada = mapTareas.get(id); // adsigna la tarea del id buscado a la auxiliar
         }
@@ -94,12 +94,11 @@ public class GestorTareas {
     }
 
     public Long crearId() {
-
         if (mapTareas.isEmpty()) {
             return Long.parseLong("1"); // si el map esta vacio, devuelve el 1
         }
-        Long nuevo = Long.parseLong("0");
 
+        Long nuevo = Long.parseLong("0");
         for (Long i : mapTareas.keySet()) { // compara y devuevle el mayor
             if (i > nuevo) {
                 nuevo = i;
