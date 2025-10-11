@@ -13,6 +13,9 @@ public class Tarea {
   private Estado estado;// Enum
   private Prioridad prioridad;// Enum
 
+  public Tarea() {
+  }
+
   public Tarea(Long id, String titulo, String descripcion, LocalDate fechaInicio, LocalDate fechaVencimiento,
       Estado estado,
       Prioridad prioridad) {
