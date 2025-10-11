@@ -68,7 +68,7 @@ public class App {
                     break;
                 case 3:
                     System.out.print("Ingrese el id de la tarea que desea buscar: ");
-                    Tarea tarea;
+                    Tarea tarea = new Tarea();
                     try {
                         gestorTareas.buscarPorId(scanner.nextLong());
                     } catch (Exception e) {
@@ -87,9 +87,50 @@ public class App {
 
                         switch (op) {
                             case 1:
-
+                                System.out.println("Ingrese el nuevo titulo: ");
+                                String nuevoTitulo = scanner.nextLine();
+                                if (Validador.validarStrings(nuevoTitulo)) {
+                                    tarea.setTitulo(nuevoTitulo);
+                                } else {
+                                    System.out.println("Error: el titulo no puede estar vacio.");
+                                }
                                 break;
-
+                            case 2:
+                                System.out.println("Ingrese la nueva descripcion: ");
+                                String nuevaDescripcion = scanner.nextLine();
+                                if (Validador.validarStrings(nuevaDescripcion)) {
+                                    tarea.setDescripcion(nuevaDescripcion);
+                                } else {
+                                    System.out.println("Error: la descripcion no puede estar vacia.");
+                                }
+                                break;
+                            case 3:
+                                System.out.println("Ingrese la nueva fecha de vencimiento (YYYY-MM-DD): ");
+                                String nuevaFecha = scanner.nextLine();
+                                if (Validador.validarStrings(nuevaFecha)) {
+                                    tarea.setFechaVencimiento(LocalDate.parse(nuevaFecha));
+                                } else {
+                                    System.out.println("Error: la fecha no puede estar vacia.");
+                                }
+                                break;
+                            case 4:
+                                System.out.println("Ingrese el nuevo estado (PENDIENTE, EN_PROGRESO, COMPLETADA): ");
+                                String nuevoEstado = scanner.nextLine().toUpperCase();
+                                if (Validador.validarStrings(nuevoEstado)) {
+                                    tarea.setEstado(Estado.valueOf(nuevoEstado));
+                                } else {
+                                    System.out.println("Error: el estado no puede estar vacio.");
+                                }
+                                break;
+                            case 5:
+                                System.out.println("Ingrese la nueva prioridad (BAJA, MEDIA, ALTA): ");
+                                String nuevaPrioridad = scanner.nextLine().toUpperCase();
+                                if (Validador.validarStrings(nuevaPrioridad)) {
+                                    tarea.setPrioridad(Prioridad.valueOf(nuevaPrioridad));
+                                } else {
+                                    System.out.println("Error: la prioridad no puede estar vacia.");
+                                }
+                                break;
                             default:
                                 break;
                         }
