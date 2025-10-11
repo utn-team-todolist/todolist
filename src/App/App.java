@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import Enums.Estado;
 import Enums.Prioridad;
+import Repository.CSVManager;
 import Services.GestorTareas;
 import Services.Validador;
 import Entities.Tarea;
@@ -12,6 +13,7 @@ import Entities.Tarea;
 public class App {
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
+        CSVManager.crearArchivoTareas();
         GestorTareas gestorTareas = new GestorTareas();
         int opcion = 0;
 
