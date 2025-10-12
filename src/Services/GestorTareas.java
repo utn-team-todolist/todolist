@@ -119,4 +119,25 @@ public class GestorTareas {
         CSVManager.reescribirTareas(mapTareas);
     }
 
+    public void listarTareasPorEstado(){
+        if (mapTareas.isEmpty()) {
+            System.out.println("No hay tareas para mostrar");
+            return;
+        }
+        for (Estado estado : Estado.values()) {
+            Boolean hayTareas = false;
+            System.out.println("Estado: " + estado);
+            for (Tarea tarea : mapTareas.values()) {
+                if (tarea.getEstado() == estado) {
+                    System.out.println(tarea.toString());
+                    hayTareas = true;
+                }
+            }
+            if (!hayTareas) {
+                System.out.println("No hay tares con ese estado.");
+            }
+        System.out.println();    
+        }
+    }
+
 }
