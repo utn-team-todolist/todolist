@@ -182,6 +182,9 @@ public class App {
                         System.out.println("Error: " + e.getMessage());
                     }
                     break;
+                case 5:
+                    gestorTareas.listarTareasPorEstado();
+                    break;
                 default:
                     break;
             }
