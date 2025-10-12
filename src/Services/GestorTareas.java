@@ -1,6 +1,7 @@
 package Services;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -14,7 +15,7 @@ public class GestorTareas {
 
     // Atributos
     // Mapa para almacenar las tareas con su ID como clave
-    private Map<Long, Tarea> mapTareas;
+    private Map<Long, Tarea> mapTareas = new HashMap<>();
 
     Scanner scanner = new Scanner(System.in);
 
@@ -31,33 +32,30 @@ public class GestorTareas {
         }
     }
 
-    public void crearTarea(String titulo, String descripcion, String fechaInicial, String fechaFinal, Estado estado,
+    public void crearTarea(String titulo, String descripcion, LocalDate fechaInicial, LocalDate fechaFinal, Estado estado,
             Prioridad prioridad) throws Exception {
-        LocalDate fechaInicio = null;
-        LocalDate fechaVencimiento = null;
-        try {
-            fechaInicio = LocalDate.parse(fechaInicial);
-            fechaVencimiento = LocalDate.parse(fechaFinal);
-        } catch (Exception e) {
-            System.out.println("Formaro fecha no valida");
-        }
-        if (fechaVencimiento != null && fechaInicio != null && fechaVencimiento.isBefore(fechaInicio)) {
+        if (fechaFinal != null && fechaInicial != null && fechaFinal.isBefore(fechaInicial)) {
             throw new Exception("Ya paso la fecha de vencimiento");
         }
         if (buscarDuplicacion(titulo)) {
             System.out.println("Tienes una tarea con el mismo titulo, confirmar o rechazar s/n ");
             String opcion = scanner.nextLine();
             if (opcion.equalsIgnoreCase("s")) {
-                Tarea tarea = new Tarea(crearId(),titulo, descripcion, fechaInicio, fechaVencimiento, estado, prioridad);
-                mapTareas.put(crearId(), tarea);
+                Tarea tarea = new Tarea(crearId(), titulo, descripcion, fechaInicial, fechaFinal, estado,
+                        prioridad);
+                mapTareas.put(tarea.getId(), tarea);
+                CSVManager.agregarTarea(tarea);
+                System.out.println("Tarea creada con exito");
             }
             if (opcion.equalsIgnoreCase("n")) {
                 System.out.println("Tarea rechazada");
 
             }
         } else {
-            Tarea tarea = new Tarea(crearId(),titulo, descripcion, fechaInicio, fechaVencimiento, estado, prioridad);
-            mapTareas.put(crearId(), tarea);
+            Tarea tarea = new Tarea(crearId(), titulo, descripcion, fechaInicial, fechaFinal, estado, prioridad);
+            mapTareas.put(tarea.getId(), tarea);
+            CSVManager.agregarTarea(tarea);
+            System.out.println("Tarea creada con exito");
 
         }
     }
@@ -115,6 +113,10 @@ public class GestorTareas {
             CSVManager.reescribirTareas(mapTareas);
         }
         System.out.println("Tarea eliminada con exito");
+    }
+
+    public void guardarCambios() {
+        CSVManager.reescribirTareas(mapTareas);
     }
 
 }
