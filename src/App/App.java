@@ -27,6 +27,7 @@ public class App {
             System.out.println("6) Salir");
             System.out.println("Ingrese opcion: ");
             opcion = scanner.nextInt();
+            scanner.nextLine(); 
             switch (opcion) {
                 case 1:
                     String titulo; // Variables
@@ -47,45 +48,53 @@ public class App {
                     } 
                 } while (!Validador.validarStrings(descripcion));
                 
-                String fechaInicio;
-                do {
-                    System.out.println("Ingrese la fecha de inicio de la tarea (YYYY-MM-DD): ");// Pido la informacion
-                    fechaInicio = scanner.nextLine();// Transformo el String a LocalDate
+                String fechaInicioString;
+                LocalDate fechaInicio = null;
+                while (true) {
+                    System.out.println("Ingrese la fecha de inicio de la tarea (YYYY-MM-DD): ");
+                    fechaInicioString = scanner.nextLine();
+                    try {
+                        fechaInicio = LocalDate.parse(fechaInicioString); // Intenta parsear la fecha
+                        break; // Si no lanza excepción, sale del bucle
+                    } catch (Exception e) {
+                        System.out.println("Formato de fecha inválido. Intente nuevamente.");
+                    }
+                }
 
-                } while (!Validador.validarStrings(fechaInicio));
+                String fechaVenciString;
+                LocalDate fechaVencimiento = null;
+                while (true) {
+                    System.out.println("Ingrese la fecha de vencimiento de la tarea (YYYY-MM-DD): ");
+                    fechaVenciString = scanner.nextLine();
+                    try {
+                        fechaVencimiento = LocalDate.parse(fechaVenciString);
+                        break;
+                    } catch (Exception e) {
+                        System.out.println("Formato de fecha inválido. Intente nuevamente.");
+                    }
+                }
                     
-                    String fechaVencimiento;
-                    
-                    do {
-                    System.out.println("Ingrese la fecha de vencimiento de la tarea (YYYY-MM-DD): ");// Pido la
-                                                                                                     // informacion
-                    fechaVencimiento = scanner.nextLine();// Transformo el String a LocalDate   
-                    } while (!Validador.validarStrings(fechaVencimiento));
-                    
-                    Estado estado;
-                    
-                    do {
-                    System.out.println("Ingrese el estado de la tarea (PENDIENTE, EN_PROGRESO, COMPLETADA): ");// Pido
-                                                                                                                // la
-                                                                                                               // informacion
-                    estado = Estado.valueOf(scanner.nextLine().toUpperCase());// En mayusculas para evitar errores 
+                Estado estado;
+                do {
+                    System.out.println("Ingrese el estado de la tarea (PENDIENTE, EN PROGRESO, COMPLETADA): ");
+                    String estadoInput = scanner.nextLine().toUpperCase().replace(" ", "_");
+                    estado = Estado.valueOf(estadoInput);
                     if (estado == null) {
                         System.out.println("El estado no puede estar vacio.");
                     }                    
                     } while (estado == null);
 
-                    Prioridad prioridad;
-
-                    do {
-                    System.out.println("Ingrese la prioridad de la tarea (BAJA, MEDIA, ALTA): ");// Pido la informacion
-                    prioridad = Prioridad.valueOf(scanner.nextLine().toUpperCase());// En mayusculas para evitar errores
+                Prioridad prioridad;
+                do {
+                    System.out.println("Ingrese la prioridad de la tarea (BAJA, MEDIA, ALTA): ");
+                    prioridad = Prioridad.valueOf(scanner.nextLine().toUpperCase());
                     if (prioridad==null) {
                         System.out.println("La prioridad no puede estar vacia.");
                     }                        
                     } while (prioridad == null);
 
-                    gestorTareas.crearTarea(titulo, descripcion, fechaInicio, fechaVencimiento, estado, prioridad);
-                    break;
+                gestorTareas.crearTarea(titulo, descripcion, fechaInicio, fechaVencimiento, estado, prioridad);
+                break;
                 case 2:
                     gestorTareas.listarTareas();
                     break;
@@ -93,7 +102,8 @@ public class App {
                     System.out.print("Ingrese el id de la tarea que desea buscar: ");
                     Tarea tarea = new Tarea();
                     try {
-                        gestorTareas.buscarPorId(scanner.nextLong());
+                        tarea = gestorTareas.buscarPorId(scanner.nextLong());
+                        scanner.nextLine();
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
@@ -107,7 +117,7 @@ public class App {
                         System.out.println("5. Prioridad");
                         System.out.println("6. Volver al menu principal");
                         op = scanner.nextInt();
-
+                        scanner.nextLine();
                         switch (op) {
                             case 1:
                                 System.out.println("Ingrese el nuevo titulo: ");
@@ -159,6 +169,8 @@ public class App {
                         }
 
                     } while (op != 6);
+                    gestorTareas.guardarCambios();
+                    System.out.println("Cambios guardados con exito.");
                     break;
                 case 4:
                     try {
