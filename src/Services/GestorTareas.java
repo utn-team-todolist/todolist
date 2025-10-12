@@ -140,4 +140,28 @@ public class GestorTareas {
         }
     }
 
+    public void listarPorSemana(){
+        if (mapTareas.isEmpty()) {
+            System.out.println("No hay tareas para mostrar");
+            return;
+        }
+        LocalDate hoy = LocalDate.now();
+        LocalDate finSemana = hoy.plusDays(7);
+
+        Boolean hayTareas = false;
+        System.out.println("Tareas para la proxima semana:");
+        for (Tarea i : mapTareas.values()) {
+            LocalDate fechaVencimiento = i.getFechaVencimiento();
+            if ((fechaVencimiento.isEqual(hoy) || fechaVencimiento.isAfter(hoy)) &&
+                (fechaVencimiento.isEqual(finSemana) || fechaVencimiento.isBefore(finSemana))) {
+                System.out.println(i.toString());
+                System.out.println("-----------");
+                hayTareas = true;
+            }
+        }
+        if (!hayTareas) {
+            System.out.println("No hay tareas para la proxima semana.");
+        }
+    }
+
 }
