@@ -23,8 +23,9 @@ public class App {
             System.out.println("2) Listar tareas");
             System.out.println("3) Editar tarea");
             System.out.println("4) Eliminar tarea");
-            System.out.println("5) Reportes");
-            System.out.println("6) Salir");
+            System.out.println("5) Listar tareas por estado");
+            System.out.println("6) Listar tareas de esta semana");
+            System.out.println("7) Salir");
             System.out.println("Ingrese opcion: ");
             opcion = scanner.nextInt();
             scanner.nextLine(); 
@@ -182,10 +183,16 @@ public class App {
                         System.out.println("Error: " + e.getMessage());
                     }
                     break;
+                case 5:
+                    gestorTareas.listarTareasPorEstado();
+                    break;
+                case 6:
+                    gestorTareas.listarPorSemana();
+                    break;
                 default:
                     break;
             }
-        } while (opcion != 6);
+        } while (opcion != 7);
         scanner.close();
     }
 }
