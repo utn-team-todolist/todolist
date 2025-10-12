@@ -92,7 +92,7 @@ public class Tarea {
     return "ID: " + this.id + " - Titulo: " + this.titulo +
         "\nDescripcion: " + this.descripcion +
         "\nFecha Inicio: " + this.fechaInicio + " - Fecha Vencimiento: " + this.fechaVencimiento +
-        "\nnEstado: " + this.estado + " - Prioridad: " + this.prioridad;
+        "\nEstado: " + this.estado + " - Prioridad: " + this.prioridad;
   }
 
   public String toCSV() {
@@ -107,9 +107,9 @@ public class Tarea {
         .append(",")
         .append(this.getFechaVencimiento())
         .append(",")
-        .append(this.getPrioridad())
+        .append(this.getEstado())
         .append(",")
-        .append(this.getEstado());
+        .append(this.getPrioridad());
     return sb.toString();
   }
 
