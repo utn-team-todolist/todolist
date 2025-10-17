@@ -19,9 +19,6 @@ public class App {
         int opcion;
         do {
             opcion = mostrarMenu();
-            if (opcion == 0) {
-                continue;
-            }
             switch (opcion) {
                 case 1:
                     menuCrearTarea();
@@ -50,24 +47,32 @@ public class App {
     }
 
     public static Integer mostrarMenu() {
-        int op = 0;
-        System.out.println("----- MENU -----");
-        System.out.println("1. Crear tarea");
-        System.out.println("2. Listar tareas");
-        System.out.println("3. Modificar tarea");
-        System.out.println("4. Eliminar tarea");
-        System.out.println("5. Listar tareas por estado");
-        System.out.println("6. Listar tareas de la semana");
-        System.out.println("7. Salir");
-        System.out.print("Ingrese una opcion: ");
+        while (true) {
+            System.out.println("----- MENU -----");
+            System.out.println("1. Crear tarea");
+            System.out.println("2. Listar tareas");
+            System.out.println("3. Modificar tarea");
+            System.out.println("4. Eliminar tarea");
+            System.out.println("5. Listar tareas por estado");
+            System.out.println("6. Listar tareas de la semana");
+            System.out.println("7. Salir");
+            System.out.print("Ingrese una opcion: ");
 
-        String opStr = scanner.nextLine();
-        try {
-            op = Integer.parseInt(opStr);
-            return op;
-        } catch (Exception e) {
-            System.out.println("Error: opcion invalida.");
-            return 0;
+            String opStr = scanner.nextLine().trim();
+            if (opStr.isEmpty()) {
+                System.out.println("Error: opcion vacia. Ingrese un numero entre 1 y 7.");
+                continue;
+            }
+            try {
+                int op = Integer.parseInt(opStr);
+                if (op < 1 || op > 7) {
+                    System.out.println("Error: la opcion debe ser un numero entre 1 y 7.");
+                    continue;
+                }
+                return op;
+            } catch (NumberFormatException e) {
+                System.out.println("Error: opcion invalida. Ingrese un numero entre 1 y 7.");
+            }
         }
     }
 
