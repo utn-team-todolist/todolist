@@ -79,13 +79,33 @@ public class App {
 
     public static void menuCrearTarea() throws Exception {
         String titulo;
-        do {
+        while (true) {
             System.out.println("Ingrese el titulo de la tarea: ");
-            titulo = scanner.nextLine();
+            titulo = scanner.nextLine().trim();
             if (!Validador.validarStrings(titulo)) {
                 System.out.println("El titulo no puede estar vacio.");
+                continue;
             }
-        } while (!Validador.validarStrings(titulo));
+
+            // Si ya existe un título igual, pedir confirmación
+            if (gestorTareas.buscarDuplicacion(titulo)) {
+                System.out.println("Tienes una tarea con el mismo titulo, confirmar o rechazar (s/n): ");
+                String opcion = scanner.nextLine().trim();
+                if (opcion.equalsIgnoreCase("s")) {
+                    break;
+                } else if (opcion.equalsIgnoreCase("n")) {
+                    //volver a pedir título
+                    System.out.println("Ingrese otro titulo.");
+                    continue;
+                } else {
+                    System.out.println("Opcion invalida. Ingrese 's' o 'n'.");
+                    continue;
+                }
+            } else {
+                // Título no duplicado, salir del bucle
+                break;
+            }
+        }
 
         String descripcion;
         do {
@@ -113,11 +133,19 @@ public class App {
         LocalDate fechaVencimiento = null;
         while (true) {
             System.out.println("Ingrese la fecha de vencimiento de la tarea (YYYY-MM-DD): ");
-            fechaVenciString = scanner.nextLine();
+            fechaVenciString = scanner.nextLine().trim();
+            if (!Validador.validarStrings(fechaVenciString)) {
+                System.out.println("Error: la fecha no puede estar vacia.");
+                continue;
+            }
             try {
                 fechaVencimiento = LocalDate.parse(fechaVenciString);
+                if (fechaInicio != null && fechaVencimiento.isBefore(fechaInicio)) {
+                    System.out.println("Error: la fecha de vencimiento no puede ser anterior a la fecha de inicio (" + fechaInicio + ").");
+                    continue;
+                }
                 break;
-            } catch (Exception e) {
+            } catch (DateTimeParseException e) {
                 System.out.println("Formato de fecha inválido. Intente nuevamente.");
             }
         }

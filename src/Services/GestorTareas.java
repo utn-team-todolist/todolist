@@ -35,29 +35,11 @@ public class GestorTareas {
     public void crearTarea(String titulo, String descripcion, LocalDate fechaInicial, LocalDate fechaFinal, Estado estado,
             Prioridad prioridad) throws Exception {
         if (fechaFinal != null && fechaInicial != null && fechaFinal.isBefore(fechaInicial)) {
-            throw new Exception("Ya paso la fecha de vencimiento");
+            throw new Exception("La fecha de vencimiento es anterior a la fecha de inicio");
         }
-        if (buscarDuplicacion(titulo)) {
-            System.out.println("Tienes una tarea con el mismo titulo, confirmar o rechazar s/n ");
-            String opcion = scanner.nextLine();
-            if (opcion.equalsIgnoreCase("s")) {
-                Tarea tarea = new Tarea(crearId(), titulo, descripcion, fechaInicial, fechaFinal, estado,
-                        prioridad);
-                mapTareas.put(tarea.getId(), tarea);
-                CSVManager.agregarTarea(tarea);
-                System.out.println("Tarea creada con exito");
-            }
-            if (opcion.equalsIgnoreCase("n")) {
-                System.out.println("Tarea rechazada");
-
-            }
-        } else {
-            Tarea tarea = new Tarea(crearId(), titulo, descripcion, fechaInicial, fechaFinal, estado, prioridad);
-            mapTareas.put(tarea.getId(), tarea);
-            CSVManager.agregarTarea(tarea);
-            System.out.println("Tarea creada con exito");
-
-        }
+        Tarea tarea = new Tarea(crearId(), titulo, descripcion, fechaInicial, fechaFinal, estado, prioridad);
+        mapTareas.put(tarea.getId(), tarea);
+        CSVManager.agregarTarea(tarea);
     }
 
     public Boolean buscarDuplicacion(String titulo) {
