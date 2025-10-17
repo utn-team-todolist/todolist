@@ -1,6 +1,7 @@
 package App;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 import Enums.Estado;
@@ -125,7 +126,12 @@ public class App {
         do {
             System.out.println("Ingrese el estado de la tarea (PENDIENTE, EN PROGRESO, COMPLETADA): ");
             String estadoInput = scanner.nextLine().toUpperCase().replace(" ", "_");
-            estado = Estado.valueOf(estadoInput);
+            try {
+                estado = Estado.valueOf(estadoInput);
+            } catch (IllegalArgumentException e) {
+                estado = null;
+                System.out.println("Estado invalido. Intente nuevamente.");
+            }
             if (estado == null) {
                 System.out.println("El estado no puede estar vacio.");
             }
@@ -134,7 +140,12 @@ public class App {
         Prioridad prioridad;
         do {
             System.out.println("Ingrese la prioridad de la tarea (BAJA, MEDIA, ALTA): ");
-            prioridad = Prioridad.valueOf(scanner.nextLine().toUpperCase());
+            try {
+                prioridad = Prioridad.valueOf(scanner.nextLine().toUpperCase());
+            } catch (IllegalArgumentException e) {
+                prioridad = null;
+                System.out.println("Prioridad invalida. Intente nuevamente.");
+            }
             if (prioridad == null) {
                 System.out.println("La prioridad no puede estar vacia.");
             }
@@ -186,7 +197,11 @@ public class App {
                     System.out.println("Ingrese la nueva fecha de vencimiento (YYYY-MM-DD): ");
                     String nuevaFecha = scanner.nextLine();
                     if (Validador.validarStrings(nuevaFecha)) {
-                        tarea.setFechaVencimiento(LocalDate.parse(nuevaFecha));
+                        try {
+                            tarea.setFechaVencimiento(LocalDate.parse(nuevaFecha));
+                        } catch (DateTimeParseException e) {
+                            System.out.println("Error: formato de fecha invalido.");
+                        }
                     } else {
                         System.out.println("Error: la fecha no puede estar vacia.");
                     }
@@ -195,7 +210,11 @@ public class App {
                     System.out.println("Ingrese el nuevo estado (PENDIENTE, EN_PROGRESO, COMPLETADA): ");
                     String nuevoEstado = scanner.nextLine().toUpperCase();
                     if (Validador.validarStrings(nuevoEstado)) {
-                        tarea.setEstado(Estado.valueOf(nuevoEstado));
+                        try {
+                            tarea.setEstado(Estado.valueOf(nuevoEstado));
+                        } catch (IllegalArgumentException e) {
+                            System.out.println("Error: estado invalido.");
+                        }
                     } else {
                         System.out.println("Error: el estado no puede estar vacio.");
                     }
@@ -204,7 +223,11 @@ public class App {
                     System.out.println("Ingrese la nueva prioridad (BAJA, MEDIA, ALTA): ");
                     String nuevaPrioridad = scanner.nextLine().toUpperCase();
                     if (Validador.validarStrings(nuevaPrioridad)) {
-                        tarea.setPrioridad(Prioridad.valueOf(nuevaPrioridad));
+                        try {
+                            tarea.setPrioridad(Prioridad.valueOf(nuevaPrioridad));
+                        } catch (IllegalArgumentException e) {
+                            System.out.println("Error: prioridad invalida.");
+                        }
                     } else {
                         System.out.println("Error: la prioridad no puede estar vacia.");
                     }
